@@ -1,33 +1,29 @@
-import { Component } from 'react';
+import { useEffect, useRef } from 'react';
 
-export class Modal extends Component {
-  componentDidMount() {
-    document
-      .querySelector('.Overlay')
-      .addEventListener('click', this.closeClick);
-    window.addEventListener('keydown', this.closeEsc);
-  }
+export const Modal = ({ closeModal }) => {
+  const overlay = useRef();
 
-  componentWillUnmount() {
-    document
-      .querySelector('.Overlay')
-      .removeEventListener('click', this.closeClick);
-    window.removeEventListener('keydown', this.closeEsc);
-  }
+  useEffect(() => {
+    overlay.addEventListener('click', closeClick);
+    window.addEventListener('keydown', closeEsc);
 
-  closeClick = e => {
-    if (e.target === e.currentTarget) this.props.closeModal();
+    return () => {
+      overlay.removeEventListener('click', closeClick);
+      window.removeEventListener('keydown', closeEsc);
+    };
+  }, []);
+
+  const closeClick = e => {
+    if (e.target === e.currentTarget) closeModal();
   };
 
-  closeEsc = e => {
-    if (e.code === 'Escape') this.props.closeModal();
+  const closeEsc = e => {
+    if (e.code === 'Escape') closeModal();
   };
 
-  render() {
-    return (
-      <div className="Overlay">
-        <div className="Modal">{this.props.children}</div>
-      </div>
-    );
-  }
-}
+  return (
+    <div ref={overlay} className="Overlay">
+      <div className="Modal">{this.props.children}</div>
+    </div>
+  );
+};
