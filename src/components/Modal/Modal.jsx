@@ -1,24 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 export const Modal = ({ closeModal, children }) => {
   const overlay = useRef();
 
-  const closeClick = e => {
-    if (e.target === e.currentTarget) closeModal();
-  };
-
-  const closeEsc = e => {
-    if (e.code === 'Escape') closeModal();
-  };
-
   useEffect(() => {
     overlay.current.addEventListener('click', closeClick);
     window.addEventListener('keydown', closeEsc);
+  }, []);
 
-    return () => {
-      window.removeEventListener('keydown', closeEsc);
-    };
-  }, [closeClick, closeEsc]);
+  const closeClick = e => {
+    if (e.target === e.currentTarget) close();
+  };
+
+  const closeEsc = e => {
+    if (e.code === 'Escape') close();
+  };
+
+  const close = () => {
+    overlay.current.removeEventListener('click', closeClick);
+    window.removeEventListener('keydown', closeEsc);
+    closeModal();
+  };
 
   return (
     <div ref={overlay} className="Overlay">
