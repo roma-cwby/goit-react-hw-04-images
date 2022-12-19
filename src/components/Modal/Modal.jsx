@@ -20,7 +20,7 @@ export const Modal = ({ closeModal, children }) => {
   useEffect(() => {
     overlay.current.addEventListener('click', closeClick);
     window.addEventListener('keydown', closeEsc);
-  }, [overlay]);
+  }, [closeClick, closeEsc]);
 
   return (
     <div ref={overlay} className="Overlay">
