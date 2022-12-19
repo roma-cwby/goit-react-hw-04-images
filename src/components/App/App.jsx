@@ -55,7 +55,7 @@ export const App = () => {
   };
 
   const onModal = e => {
-    const largeImg = this.state.images.filter(
+    const largeImg = images.filter(
       item => item.id === Number(e.target.closest('li').id)
     );
 
