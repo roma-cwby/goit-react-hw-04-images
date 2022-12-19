@@ -3,11 +3,6 @@ import { useRef, useEffect } from 'react';
 export const Modal = ({ closeModal, children }) => {
   const overlay = useRef();
 
-  useEffect(() => {
-    overlay.current.addEventListener('click', closeClick);
-    window.addEventListener('keydown', closeEsc);
-  }, []);
-
   const closeClick = e => {
     if (e.target === e.currentTarget) close();
   };
@@ -21,6 +16,11 @@ export const Modal = ({ closeModal, children }) => {
     window.removeEventListener('keydown', closeEsc);
     closeModal();
   };
+
+  useEffect(() => {
+    overlay.current.addEventListener('click', closeClick);
+    window.addEventListener('keydown', closeEsc);
+  }, []);
 
   return (
     <div ref={overlay} className="Overlay">
